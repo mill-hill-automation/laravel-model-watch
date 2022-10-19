@@ -2,9 +2,9 @@
 
 namespace Mha\LaravelModelWatch;
 
+use Mha\LaravelModelWatch\Commands\LaravelModelWatchCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Mha\LaravelModelWatch\Commands\LaravelModelWatchCommand;
 
 class LaravelModelWatchServiceProvider extends PackageServiceProvider
 {

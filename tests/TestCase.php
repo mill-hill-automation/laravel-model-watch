@@ -3,8 +3,8 @@
 namespace Mha\LaravelModelWatch\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Orchestra\Testbench\TestCase as Orchestra;
 use Mha\LaravelModelWatch\LaravelModelWatchServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
