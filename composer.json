@@ -1,22 +1,22 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "mill-hill-automation/laravel-model-watch",
+    "description": "Adds a model:watch command to poll the database for changes to Eloquent models",
     "keywords": [
-        ":vendor_name",
+        "mill-hill-automation",
         "laravel",
-        ":package_slug"
+        "laravel-model-watch"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/mill-hill-automation/laravel-model-watch",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Sami Walbury",
+            "email": "sami@patabugen.co.uk",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.0",
         "spatie/laravel-package-tools": "^1.13.0",
         "illuminate/contracts": "^9.0"
     },
@@ -35,13 +35,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Mha\\LaravelModelWatch\\": "src",
+            "Mha\\LaravelModelWatch\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "Mha\\LaravelModelWatch\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -61,10 +61,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Mha\\LaravelModelWatch\\LaravelModelWatchServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "LaravelModelWatch": "Mha\\LaravelModelWatch\\Facades\\LaravelModelWatch"
             }
         }
     },

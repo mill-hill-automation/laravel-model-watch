@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Mha\LaravelModelWatch\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class LaravelModelWatchCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-model-watch';
 
     public $description = 'My command';
 
