@@ -18,8 +18,6 @@ class LaravelModelWatchServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-model-watch')
             ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_laravel-model-watch_table')
             ->hasCommand(LaravelModelWatchCommand::class);
     }
 }
