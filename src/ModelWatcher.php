@@ -31,8 +31,6 @@ class ModelWatcher
 
     public function refresh(): self
     {
-        ray($this->model);
-        ray($this->model->getKey());
         $this->addVersion($this->model->refresh()->toArray());
         $this->output();
         return $this;

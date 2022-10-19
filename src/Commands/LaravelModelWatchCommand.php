@@ -13,11 +13,6 @@ use Symfony\Component\Console\Output\ConsoleSectionOutput;
 
 class LaravelModelWatchCommand extends DatabaseInspectionCommand
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'model:watch
         {modelOrCollection=default : the model class or the name of a collection in your config}
         {id? : the ID of the model to show. Required if model is specified.}
@@ -25,11 +20,6 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
         {--interval=500 : How often (in milliseconds to poll the database for changes)}
     ';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Watch an Eloquent model for changes';
 
     protected int $intervalMilliseconds = 2500;
@@ -44,28 +34,17 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
             return self::INVALID;
         }
 
-        // We don't support multiple models.... yet!
-        $model = $models->first();
-
-        $modelWatcher = ModelWatcher::create(
-            $models->first(),
-            $this->output->getOutput()->section()
-        );
-
+        $modelWatchers = $models->map(function(Model $model){
+            return ModelWatcher::create(
+                $model,
+                $this->output->getOutput()->section()
+            );
+        });
 
         while (true) {
-            $modelWatcher->refresh();
+            $modelWatchers->each->refresh();
             usleep(($this->intervalMilliseconds) * 1000);
         }
-    }
-
-    protected function getSection(): ConsoleSectionOutput
-    {
-        if (! isset($this->section)) {
-            $this->section = $this->output->getOutput()->section();
-        }
-
-        return $this->section;
     }
 
     public function getModels(): Collection
@@ -83,10 +62,8 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
         }
 
         $collectionClass = config('model-watch.collections.default');
-        ray($collectionClass);
         /** @var BaseWatchCollection $collection */
         $collection = app()->make($collectionClass);
-        ray($collection);
         return $collection->getModels();
 
     }
