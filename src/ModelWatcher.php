@@ -2,8 +2,6 @@
 
 namespace Mha\LaravelModelWatch;
 
-
-use Doctrine\DBAL\Schema\Column;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Symfony\Component\Console\Helper\Table;
@@ -12,8 +10,11 @@ use Symfony\Component\Console\Output\ConsoleSectionOutput;
 class ModelWatcher
 {
     protected Model $model;
+
     protected ConsoleSectionOutput $section;
+
     protected Collection $fields;
+
     protected Collection $watchAttributes;
 
     public function __construct(Model $model, ConsoleSectionOutput $section)
@@ -26,6 +27,7 @@ class ModelWatcher
     public function watchAttributes(iterable $attributes): self
     {
         $this->watchAttributes = collect($attributes);
+
         return $this;
     }
 
@@ -35,6 +37,7 @@ class ModelWatcher
         ray($this->model->getKey());
         $this->addVersion($this->model->refresh()->toArray());
         $this->output();
+
         return $this;
     }
 
@@ -121,7 +124,7 @@ class ModelWatcher
         $table->render();
     }
 
-    static function create(Model $model, ConsoleSectionOutput $section): self
+    public static function create(Model $model, ConsoleSectionOutput $section): self
     {
         return new self($model, $section);
     }

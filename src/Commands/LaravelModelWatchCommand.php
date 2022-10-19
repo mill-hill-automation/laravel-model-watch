@@ -8,7 +8,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Mha\LaravelModelWatch\Collections\BaseWatchCollection;
 use Mha\LaravelModelWatch\ModelWatcher;
-use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\ConsoleSectionOutput;
 
 class LaravelModelWatchCommand extends DatabaseInspectionCommand
@@ -41,6 +40,7 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
         $models = $this->getModels();
         if ($models->isEmpty()) {
             $this->error('No models found');
+
             return self::INVALID;
         }
 
@@ -51,7 +51,6 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
             $models->first(),
             $this->output->getOutput()->section()
         );
-
 
         while (true) {
             $modelWatcher->refresh();
@@ -78,7 +77,7 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
                 $class::findOrFail(
                     $this->argument('id'),
                     $this->option('field')
-                )
+                ),
             ]);
         }
 
@@ -87,8 +86,8 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
         /** @var BaseWatchCollection $collection */
         $collection = app()->make($collectionClass);
         ray($collection);
-        return $collection->getModels();
 
+        return $collection->getModels();
     }
 
     /**
@@ -119,5 +118,4 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
             ? $rootNamespace.'Models\\'.$model
             : $rootNamespace.$model;
     }
-
 }
