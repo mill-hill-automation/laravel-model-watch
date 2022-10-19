@@ -110,7 +110,8 @@ class ModelWatcher
         });
         $headers->prepend('Field');
         $table = new Table($this->section);
-        $table->setHeaderTitle(class_basename($this->model).' '.$this->model->getKey());
+        $id = is_array($this->model->getKey()) ? implode(', ', $this->model->getKey()) : $this->model->getKey();
+        $table->setHeaderTitle(class_basename($this->model).' '.$id);
         $table->setHeaders($headers->toArray());
         foreach ($this->fields as $field) {
             $table->addRow($field->toArray());
