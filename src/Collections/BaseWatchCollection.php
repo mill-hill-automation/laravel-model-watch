@@ -11,5 +11,5 @@ abstract class BaseWatchCollection
      *
      * @return Collection
      */
-    abstract function getModels(): Collection;
+    abstract public function getModels(): Collection;
 }
