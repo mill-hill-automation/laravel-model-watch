@@ -8,7 +8,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Mha\LaravelModelWatch\Collections\BaseWatchCollection;
 use Mha\LaravelModelWatch\ModelWatcher;
-use Symfony\Component\Console\Output\ConsoleSectionOutput;
 
 class LaravelModelWatchCommand extends DatabaseInspectionCommand
 {
@@ -34,7 +33,7 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
             return self::INVALID;
         }
 
-        $modelWatchers = $models->map(function(Model $model){
+        $modelWatchers = $models->map(function (Model $model) {
             return ModelWatcher::create(
                 $model,
                 $this->output->getOutput()->section()
@@ -64,6 +63,7 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
         $collectionClass = config('model-watch.collections.default');
         /** @var BaseWatchCollection $collection */
         $collection = app()->make($collectionClass);
+
         return $collection->getModels();
 
         return $collection->getModels();
