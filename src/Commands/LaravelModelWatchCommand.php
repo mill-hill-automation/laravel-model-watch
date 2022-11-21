@@ -13,7 +13,7 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
 {
     protected $signature = 'model:watch
         {modelOrCollection=default : the model class or the name of a collection in your config}
-        {id? : the ID of the model to show. Required if model is specified.}
+        {id? : if modelOrCollection is a model name, specify the ID you want to watch}
         {--field=* : specify which field(s) to show}
         {--interval=500 : How often (in milliseconds to poll the database for changes)}
     ';
@@ -60,11 +60,10 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
             ]);
         }
 
-        $collectionClass = config('model-watch.collections.default');
+        $collectionClass = $this->qualifyCollection($this->argument('modelOrCollection'));
+        $this->info('Using collection class: ' . $collectionClass);
         /** @var BaseWatchCollection $collection */
         $collection = app()->make($collectionClass);
-
-        return $collection->getModels();
 
         return $collection->getModels();
     }
@@ -96,5 +95,35 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
         return is_dir(app_path('Models'))
             ? $rootNamespace.'Models\\'.$model
             : $rootNamespace.$model;
+    }
+
+
+    /**
+     * Qualify the given collection class base name.
+     *
+     * @param  string  $model
+     * @return string
+     */
+    protected function qualifyCollection(string $collection): string
+    {
+        if ($collection === 'default') {
+            $collection = config('model-watch.collections.default');
+        }
+
+        if (str_contains($collection, '\\') && class_exists($collection)) {
+            return $collection;
+        }
+
+        $collection = ltrim($collection, '\\/');
+
+        $collection = str_replace('/', '\\', $collection);
+
+        $rootNamespace = $this->laravel->getNamespace();
+
+        if (Str::startsWith($collection, $rootNamespace)) {
+            return $collection;
+        }
+
+        return $rootNamespace.'Collections\ModelWatch\\'.$collection;
     }
 }
