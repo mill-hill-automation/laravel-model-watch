@@ -61,7 +61,7 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
         }
 
         $collectionClass = $this->qualifyCollection($this->argument('modelOrCollection'));
-        $this->info('Using collection class: ' . $collectionClass);
+        $this->info('Using collection class: '.$collectionClass);
         /** @var BaseWatchCollection $collection */
         $collection = app()->make($collectionClass);
 
@@ -96,7 +96,6 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
             ? $rootNamespace.'Models\\'.$model
             : $rootNamespace.$model;
     }
-
 
     /**
      * Qualify the given collection class base name.
