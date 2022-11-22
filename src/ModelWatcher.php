@@ -112,7 +112,7 @@ class ModelWatcher
     protected function output()
     {
         $headers = $this->getFields()->first()->slice(1)->map(function ($item, $key) {
-            return 'Change '.$key;
+            return $key == 1 ? 'Initial' : 'Change '.$key - 1;
         });
         $headers->prepend('Field');
         $table = new Table($this->section);
