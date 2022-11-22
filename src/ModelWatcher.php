@@ -33,7 +33,7 @@ class ModelWatcher
 
     public function refresh(): self
     {
-        if ($this->addVersion($this->model->refresh()->toArray()) ) {
+        if ($this->addVersion($this->model->refresh()->toArray())) {
             $this->output();
         }
 
@@ -78,8 +78,10 @@ class ModelWatcher
 
                 return $field;
             });
+
             return true;
         }
+
         return false;
     }
 
