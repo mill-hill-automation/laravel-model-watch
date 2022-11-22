@@ -33,8 +33,9 @@ class ModelWatcher
 
     public function refresh(): self
     {
-        $this->addVersion($this->model->refresh()->toArray());
-        $this->output();
+        if ($this->addVersion($this->model->refresh()->toArray()) ) {
+            $this->output();
+        }
 
         return $this;
     }
@@ -59,9 +60,9 @@ class ModelWatcher
      * Any missing attributes are assumed to have not changed.
      *
      * @param  array  $attributes
-     * @return void
+     * @return bool True if a new version was created, false if there were no changes to add
      */
-    protected function addVersion(array $attributes): void
+    protected function addVersion(array $attributes): bool
     {
         $attributes = collect($attributes);
         $attributes = $this->filterUntrackedAttributes($attributes);
@@ -77,7 +78,9 @@ class ModelWatcher
 
                 return $field;
             });
+            return true;
         }
+        return false;
     }
 
     protected function stringifyAttributes(Collection $attributes): Collection
