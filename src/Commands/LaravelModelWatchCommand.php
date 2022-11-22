@@ -22,35 +22,56 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
 
     protected int $intervalMilliseconds = 2500;
 
+    protected Collection $modelWatchers;
+
+    protected string $collectionName = '';
+
     public function handle(): int
     {
         $this->ensureDependenciesExist();
         $this->intervalMilliseconds = $this->option('interval');
-        $models = $this->getModels();
-        if ($models->isEmpty()) {
-            $this->error('No models found');
+        $this->modelWatchers = new Collection;
 
-            return self::INVALID;
-        }
-
-        $modelWatchers = $models->map(function (Model $model) {
-            return ModelWatcher::create(
-                $model,
-                $this->output->getOutput()->section()
-            );
-        });
-
+        $info = $this->output->getOutput()->section();
         while (true) {
-            $modelWatchers->each->refresh();
+            $this->loadModelWatchers($this->getModels());
+            $this->modelWatchers->each->refresh();
+            $info->overwrite(
+                '<info>Watching '.$this->modelWatchers->count()
+                .' models from '.$this->collectionName
+                .'</info>'
+            );
             usleep(($this->intervalMilliseconds) * 1000);
         }
+    }
+
+    /**
+     * Given a collection of models, creates a ModelWatcher for each
+     * and adds it to our ModelWatchers collection. If a model already
+     * has a ModelWatcher it will be skipped.
+     */
+    public function loadModelWatchers(Collection $models): self
+    {
+        $models->each(function (Model $model) {
+            $key = get_class($model).$model->{$model->getKeyName()};
+            if ($this->modelWatchers->has($key)) {
+                return;
+            }
+            $this->modelWatchers->put(
+                $key,
+                ModelWatcher::create(
+                    $model, $this->output->getOutput()->section()
+                )
+            );
+        });
+        return $this;
     }
 
     public function getModels(): Collection
     {
         if ($this->argument('id')) {
             $class = $this->qualifyModel($this->argument('modelOrCollection'));
-
+            $this->collectionName = $class.':'.$this->argument('id');
             /** @var class-string<Model> $class */
             return collect([
                 $class::findOrFail(
@@ -61,7 +82,7 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
         }
 
         $collectionClass = $this->qualifyCollection($this->argument('modelOrCollection'));
-        $this->info('Using collection class: '.$collectionClass);
+        $this->collectionName = $collectionClass;
         /** @var BaseWatchCollection $collection */
         $collection = app()->make($collectionClass);
 

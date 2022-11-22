@@ -42,6 +42,8 @@ artisan model:watch App/Models/Contact 2 --fields=name --fields=email
 ### Watch dynamic or multiple models
 With an extra couple of steps you can watch multiple models, or dynamically select which models to watch.
 
+You can even query for models which do not yet exist, and they will appear on screen when they do.
+
 To do this create a collection with extends `Mha\LaravelModelWatch\Collections\BaseWatchCollection` and implement the `getModels()` method, which returns a collection of models to watch.
 
 ```php
@@ -88,7 +90,6 @@ Issues and Pull Requests are welcome, especially with tests :)
 
 ### Todo/Wishlist/Ideas:
 
- - Reload the ModelWatchCollection to be able to watch newly created models
  - Have a prompt on the command to enter events which are added to the output, to assist with tracing.
 
 ## Credits
