@@ -55,7 +55,7 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
             return collect([
                 $class::findOrFail(
                     $this->argument('id'),
-                    !empty($this->option('field')) ? $this->option('field') : [ '*' ]
+                    ! empty($this->option('field')) ? $this->option('field') : ['*']
                 ),
             ]);
         }
