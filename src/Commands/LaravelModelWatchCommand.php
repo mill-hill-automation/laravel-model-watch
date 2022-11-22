@@ -14,7 +14,7 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
     protected $signature = 'model:watch
         {modelOrCollection=default : the model class or the name of a collection in your config}
         {id? : if modelOrCollection is a model name, specify the ID you want to watch}
-        {--field=* : specify which field(s) to show}
+        {--field= : specify which field(s) to show}
         {--interval=500 : How often (in milliseconds to poll the database for changes)}
     ';
 
@@ -55,7 +55,7 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
             return collect([
                 $class::findOrFail(
                     $this->argument('id'),
-                    $this->option('field')
+                    !empty($this->option('field')) ? $this->option('field') : [ '*' ]
                 ),
             ]);
         }
