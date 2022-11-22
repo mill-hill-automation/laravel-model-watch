@@ -53,7 +53,7 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
     public function loadModelWatchers(Collection $models): self
     {
         $models->each(function (Model $model) {
-            $key = get_class($model).$model->{$model->getKeyName()};
+            $key = get_class($model).collect($model->getKey())->join(',');
             if ($this->modelWatchers->has($key)) {
                 return;
             }
