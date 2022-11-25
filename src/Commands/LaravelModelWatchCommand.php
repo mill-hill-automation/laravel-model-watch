@@ -64,6 +64,7 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
                 )
             );
         });
+
         return $this;
     }
 
