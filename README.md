@@ -5,7 +5,36 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/mill-hill-automation/laravel-model-watch/Fix%20PHP%20code%20style%20issues?label=code%20style)](https://github.com/mill-hill-automation/laravel-model-watch/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/mill-hill-automation/laravel-model-watch.svg?style=flat-square)](https://packagist.org/packages/mill-hill-automation/laravel-model-watch)
 
-Adds a `artisan model:watch` command to watch for changes to Eloquent models by polling the database. 
+Adds a `artisan model:watch` command to watch for changes to Eloquent models by polling the database.
+
+# Use Case & Demo
+I created this package as part of reverse engineering a closed course system, using a Laravel project with models setup to read a from the target database, it allowed me to figure out what the system was doing when (for example) allocating payments to invoices.
+
+![laravel-model-watch-demo](resources/images/laravel-model-watch-demo.gif)
+
+The [ModelWatchCollection](#watch-dynamic-or-multiple-models) used above is as simple as this:
+
+```
+<?php
+
+namespace App\Collections\ModelWatch;
+
+use App\Models\Site;
+use App\Models\User;
+use Mha\LaravelModelWatch\Collections\BaseWatchCollection;
+use Illuminate\Support\Collection;
+
+class ExampleWatchCollection extends BaseWatchCollection
+{
+    public function getModels(): Collection
+    {
+        $user = User::find(9, ['id', 'name', 'email']);
+        $site = Site::find(44, ['id', 'name', 'slug', 'url']);
+
+        return collect([$user, $site]);
+    }
+}
+```
 
 ## Installation
 
