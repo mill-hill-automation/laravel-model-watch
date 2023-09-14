@@ -73,6 +73,7 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
         if ($this->argument('id')) {
             $class = $this->qualifyModel($this->argument('modelOrCollection'));
             $this->collectionName = $class.':'.$this->argument('id');
+
             /** @var class-string<Model> $class */
             return collect([
                 $class::findOrFail(
@@ -93,8 +94,6 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
     /**
      * Qualify the given model class base name.
      *
-     * @param  string  $model
-     * @return string
      *
      * @see \Illuminate\Console\GeneratorCommand
      */
@@ -123,7 +122,6 @@ class LaravelModelWatchCommand extends DatabaseInspectionCommand
      * Qualify the given collection class base name.
      *
      * @param  string  $model
-     * @return string
      */
     protected function qualifyCollection(string $collection): string
     {

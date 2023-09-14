@@ -59,7 +59,6 @@ class ModelWatcher
      * Values are all stored as text, and null means the value had not changed.
      * Any missing attributes are assumed to have not changed.
      *
-     * @param  array  $attributes
      * @return bool True if a new version was created, false if there were no changes to add
      */
     protected function addVersion(array $attributes): bool

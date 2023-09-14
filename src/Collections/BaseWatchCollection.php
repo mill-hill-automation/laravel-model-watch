@@ -8,8 +8,6 @@ abstract class BaseWatchCollection
 {
     /**
      * Return a collection of Eloquent Models to watch.
-     *
-     * @return Collection
      */
     abstract public function getModels(): Collection;
 }
